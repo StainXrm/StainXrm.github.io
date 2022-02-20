@@ -1,6 +1,4 @@
 const { src, dest, watch, series } = require('gulp');
-var ghpages = require('gh-pages');
-
 const terser = require("gulp-terser");
 const prefix = require("gulp-autoprefixer");
 const minify = require("gulp-clean-css");
@@ -29,17 +27,11 @@ function htmlpass() {
 
 }
 
-//git upload
-function release() {
-    ghpages.publish('dist', function(err) {});
-}
-
 //watch
 function Watch() {
     watch("css/*.css", cssminify);
     watch("js/*.js", jsmin);
     watch("*html", htmlpass);
-    release();
 }
 
 exports.default = series(
