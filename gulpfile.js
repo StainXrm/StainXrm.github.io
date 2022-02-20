@@ -6,24 +6,24 @@ const concat = require("gulp-concat");
 
 //css
 function cssminify() {
-    return src('css/*.css')
+    return src('src/css/*.css')
         .pipe(minify())
         .pipe(prefix())
-        .pipe(dest('dist/css'));
+        .pipe(dest('\css'));
 };
 
 //js
 function jsmin() {
-    return src("js/*.js")
+    return src("src/js/*.js")
         //.pipe(concat('main.js'))
         .pipe(terser({ mangle: false }))
-        .pipe(dest('dist/js'))
+        .pipe(dest('\js'))
 }
 
 //html
 function htmlpass() {
-    return src("*.html")
-        .pipe(dest("dist/"))
+    return src("src/*.html")
+        .pipe(dest("\."))
 
 }
 
