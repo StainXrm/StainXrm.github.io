@@ -24,8 +24,6 @@ function initCanvas() {
     for (let index = 0; index <= nNeurons; index++) {
         Neurons[index] = new Neuron(index);
     }
-    console.log(nNeurons);
-
 }
 
 var cursorX = -1;
