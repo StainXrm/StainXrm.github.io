@@ -1,6 +1,6 @@
 const MAXLINEDISTANCE = 150;
 const MOUSERANGE = 200;
-const VELOCITYCHANGSPEED = 0.03;
+const VELOCITYCHANGSPEED = 0.02;
 const GRAVITYMULTIPLYER = 0.001;
 
 const canvas = document.getElementById("canvas");
@@ -10,20 +10,20 @@ var nNeurons = 0;
 var Neurons = {}
 
 window.onresize = initCanvas;
-initCanvas();
 
 function initCanvas() {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
     canvas.centerX = canvas.width / 2;
     canvas.centerY = canvas.height / 2;
-    let nNeurons = Math.ceil(canvas.width * canvas.height / 10000); //calculate Neuron amount by resolution
-    for (const [key, e] of Object.entries(Neurons)) {
-        e.exists = false;
+    for (let index = 0; index <= nNeurons; index++) { //clear all first!
+        Neurons[index] = null;
     }
-    for (let index = 0; index < nNeurons; index++) {
-        Neurons[index] = new Neuron();
+    nNeurons = Math.ceil(canvas.width * canvas.height / 10000); //calculate Neuron amount by resolution
+    for (let index = 0; index <= nNeurons; index++) {
+        Neurons[index] = new Neuron(index);
     }
+
 }
 
 var cursorX = -1;
@@ -38,9 +38,8 @@ var collisions = true;
 //die eigentliche Animation:
 const animate = (currentTime) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let index = 0; index < nNeurons; index++) {
+    for (let index = 0; index <= nNeurons; index++) {
         if (typeof Neurons[index] === "undefined") continue;
-        if (!Neurons[index].exists) continue;
         Neurons[index].draw();
     }
     if (!paused) requestAnimationFrame(animate);

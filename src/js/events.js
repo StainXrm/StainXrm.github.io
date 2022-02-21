@@ -14,18 +14,34 @@
        if (e.button === 1) negativeMouse = false;
    });
 
+   //touch:
+   document.addEventListener("touchmove", function(e) {
+       cursorX = e.touches[0].clientX;
+       cursorY = e.touches[0].clientY;
+   });
+
+
+   canvas.addEventListener("touchstart", function(e) {
+       gravitateMouse = true;
+   });
+   canvas.addEventListener("touchend", function(e) {
+       gravitateMouse = false;
+   });
+
+
    //Button events:
    document.getElementById("addButton").addEventListener("click", function(e) {
        for (let index = 0; index < 5; index++) {
-           Neurons[nNeurons] = new Neuron();
+           nNeurons++;
+           Neurons[nNeurons] = new Neuron(nNeurons);
        }
    });
 
    document.getElementById("remButton").addEventListener("click", function(e) {
        for (let index = 0; index < 5; index++) {
-           nNeurons--;
            if (typeof Neurons[nNeurons] === "undefined") return;
-           Neurons[nNeurons].exists = false;
+           Neurons[nNeurons] = null;
+           nNeurons--;
        }
    });
 

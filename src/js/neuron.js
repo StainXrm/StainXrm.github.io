@@ -1,14 +1,11 @@
 /* Ein neues Neuron */
-function Neuron(x = 0, y = 0) {
+function Neuron(id) {
     this.size = 3;
     this.gotosize = this.size;
-    if (x === 0) this.x = this.size + Math.random() * (canvas.width - this.size * 2);
-    if (y === 0) this.y = this.size + Math.random() * (canvas.height - this.size * 2);
-    if (x > 0) this.x = x;
-    if (y > 0) this.y = y;
-    this.id = nNeurons++;
+    this.x = this.size + Math.random() * (canvas.width - this.size * 2);
+    this.y = this.size + Math.random() * (canvas.height - this.size * 2);
+    this.id = id;
     this.connections = [];
-    this.exists = true;
     this.vx = Math.random() * 2 - 1;
     this.vy = Math.random() * 2 - 1;
     this.vxmax = Math.random() * 2 - 1;
@@ -66,7 +63,6 @@ function Neuron(x = 0, y = 0) {
         //Sehr anzüglich, die Gravitation!
         for (let index = 0; index < nNeurons; index++) {
             if (typeof Neurons[index] === "undefined") continue;
-            if (!Neurons[index].exists) continue;
             if (this.x === Neurons[index].x && this.y === Neurons[index].y) continue;
             if (getDistance(this.x, this.y, Neurons[index].x, Neurons[index].y) < MAXLINEDISTANCE / 4) {
                 if (gravitateNeurons) this.vx -= (this.x - Neurons[index].x) * 0.0005;
@@ -81,7 +77,6 @@ function Neuron(x = 0, y = 0) {
         //Sehr anzüglich, die Gravitation!
         for (let index = 0; index < nNeurons; index++) {
             if (typeof Neurons[index] === "undefined") continue;
-            if (!Neurons[index].exists) continue;
             if (this.x === Neurons[index].x && this.y === Neurons[index].y) continue;
             if (collisions) {
                 if (getDistance(this.x, this.y, Neurons[index].x, Neurons[index].y) < this.size + Neurons[index].size) {
@@ -94,7 +89,7 @@ function Neuron(x = 0, y = 0) {
 
     this.drawPoint = () => {
         //ab ans Zeichenbrett:
-        this.gotosize = this.connections.length / 2
+        this.gotosize = this.connections.length / 2 + 1;
         if (this.size < this.gotosize) this.size += 0.05;
         if (this.size > this.gotosize && this.size > 1) this.size -= 0.05;
         ctx.beginPath();
@@ -111,7 +106,6 @@ function Neuron(x = 0, y = 0) {
             const i = this.connections.indexOf(Neurons[index].id);
             let distance = getDistance(this.x, this.y, Neurons[index].x, Neurons[index].y);
             if (i > -1 && distance >= MAXLINEDISTANCE) this.connections.splice(i, 1); // 2nd parameter means remove one item only
-            if (!Neurons[index].exists) continue;
             if (this.x === Neurons[index].x && this.y === Neurons[index].y) continue;
             if (distance < MAXLINEDISTANCE) {
                 if (i === -1) this.connections.push(Neurons[index].id);
