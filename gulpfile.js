@@ -28,7 +28,7 @@ function htmlpass() {
 }
 
 //watch
-function Watch() {
+function Watcher() {
     watch("css/*.css", cssminify);
     watch("js/*.js", jsmin);
     watch("*.html", htmlpass);
@@ -38,5 +38,5 @@ exports.default = series(
     cssminify,
     jsmin,
     htmlpass,
-    Watch,
+    Watcher,
 )
