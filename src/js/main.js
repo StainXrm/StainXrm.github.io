@@ -19,10 +19,12 @@ function initCanvas() {
     for (let index = 0; index <= nNeurons; index++) { //clear all first!
         Neurons[index] = null;
     }
-    nNeurons = Math.ceil(canvas.width * canvas.height / 10000); //calculate Neuron amount by resolution
+    nNeurons = Math.ceil(screen.availWidth * screen.availHeight / 20000); //calculate Neuron amount by resolution
+    nNeurons = Math.max(nNeurons, 40);
     for (let index = 0; index <= nNeurons; index++) {
         Neurons[index] = new Neuron(index);
     }
+    console.log(nNeurons);
 
 }
 
