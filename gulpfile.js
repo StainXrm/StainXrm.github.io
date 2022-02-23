@@ -7,8 +7,8 @@ const concat = require("gulp-concat");
 //css
 function cssminify() {
     return src('src/css/*.css')
-        .pipe(minify())
-        .pipe(prefix())
+        //.pipe(minify())
+        //.pipe(prefix())
         .pipe(dest('\css'));
 };
 
@@ -16,7 +16,7 @@ function cssminify() {
 function jsmin() {
     return src("src/js/*.js")
         //.pipe(concat('main.js'))
-        .pipe(terser({ mangle: false }))
+        //.pipe(terser({ mangle: false }))
         .pipe(dest('\js'))
 }
 
@@ -38,5 +38,5 @@ exports.default = series(
     cssminify,
     jsmin,
     htmlpass,
-    Watcher,
+    // Watcher,
 )
