@@ -1,7 +1,7 @@
-/* Ein neues Neuron, classes still dont make much sense in js i see */
+/* Ein neues Neuron! Oh JS, deine Klassen sind auch nur Funktionen in Disguise */
 class Neuron {
     constructor(id) {
-        this.size = 3;
+        this.size = Math.random() * 5 + 1;
         this.gotosize = this.size;
         this.x = this.size + Math.random() * (canvas.width - this.size * 2);
         this.y = this.size + Math.random() * (canvas.height - this.size * 2);
@@ -13,16 +13,16 @@ class Neuron {
         this.vymax = Math.random() * 2 - 1;
     }
     draw = function() {
-        this.calcCoords();
         this.gravityMouse();
-        this.gravity();
+        if (antigravityNeurons) this.antiGravity();
         this.collisionCheck();
-        this.drawPoint();
+        this.calcCoords();
+        this.drawNeuron();
         this.drawLines();
     }
 
     calcCoords = () => {
-        //Limits für geschwindigkeit:
+        //Normalisierung für Neuronen-Geschwindigkeit:
         if (this.vx > this.vxmax) this.vx -= VELOCITYCHANGSPEED;
         if (this.vy > this.vymax) this.vy -= VELOCITYCHANGSPEED;
         if (this.vx < -this.vxmax) this.vx += VELOCITYCHANGSPEED;
@@ -54,23 +54,21 @@ class Neuron {
     gravityMouse = () => {
         //Die Maus spielt mit!
         if (getDistance(cursorX, cursorY, this.x, this.y) < MOUSERANGE) {
-            if (gravitateMouse) this.vx -= (this.x - cursorX) * GRAVITYMULTIPLYER;
-            if (gravitateMouse) this.vy -= (this.y - cursorY) * GRAVITYMULTIPLYER;
-            if (negativeMouse) this.vx += (this.x - cursorX) * GRAVITYMULTIPLYER;
-            if (negativeMouse) this.vy += (this.y - cursorY) * GRAVITYMULTIPLYER;
+            if (gravitateMouse) this.vx -= ((this.x - cursorX) / 1000) * MOUSEGRAVITY;
+            if (gravitateMouse) this.vy -= ((this.y - cursorY) / 1000) * MOUSEGRAVITY;
+            if (negativeMouse) this.vx += ((this.x - cursorX) / 1000) * MOUSEGRAVITY;
+            if (negativeMouse) this.vy += ((this.y - cursorY) / 1000) * MOUSEGRAVITY;
         }
     }
 
-    gravity = () => {
+    antiGravity = () => {
         //Sehr anzüglich, die Gravitation!
         for (let index = 0; index < nNeurons; index++) {
             if (typeof Neurons[index] === "undefined") continue;
             if (this.x === Neurons[index].x && this.y === Neurons[index].y) continue;
             if (getDistance(this.x, this.y, Neurons[index].x, Neurons[index].y) < MAXLINEDISTANCE / 4) {
-                if (gravitateNeurons) this.vx -= (this.x - Neurons[index].x) * 0.0005;
-                if (gravitateNeurons) this.vy -= (this.y - Neurons[index].y) * 0.0005;
-                if (!collisions && !gravitateNeurons) this.vx += (this.x - Neurons[index].x) * 0.0005;
-                if (!collisions && !gravitateNeurons) this.vy += (this.y - Neurons[index].y) * 0.0005;
+                this.vx += (this.x - Neurons[index].x) * 0.0008;
+                this.vy += (this.y - Neurons[index].y) * 0.0008;
             }
         }
     }
@@ -81,7 +79,7 @@ class Neuron {
             if (typeof Neurons[index] === "undefined") continue;
             if (this.x === Neurons[index].x && this.y === Neurons[index].y) continue;
             if (collisions) {
-                if (getDistance(this.x, this.y, Neurons[index].x, Neurons[index].y) < this.size + Neurons[index].size) {
+                if (getDistance(this.x, this.y, Neurons[index].x, Neurons[index].y) <= this.size + Neurons[index].size) {
                     this.vx += (this.x - Neurons[index].x) * 0.01;
                     this.vy += (this.y - Neurons[index].y) * 0.01;
                 }
@@ -89,11 +87,11 @@ class Neuron {
         }
     }
 
-    drawPoint = () => {
+    drawNeuron = () => {
         //ab ans Zeichenbrett:
         this.gotosize = this.connections.length / 2 + 1;
-        if (this.size < this.gotosize) this.size += 0.05;
-        if (this.size > this.gotosize && this.size > 1) this.size -= 0.05;
+        if (this.size < this.gotosize) this.size += 0.02;
+        if (this.size > this.gotosize && this.size > 1) this.size -= 0.02;
         ctx.beginPath();
         ctx.globalCompositeOperation = "source-over";
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
@@ -102,7 +100,7 @@ class Neuron {
     }
 
     drawLines = () => {
-        //wir verbinden die Punkte (ja, es wird zu und von verbunden, quasi doppelt!)
+        //Verbindungslinien der Punkte
         for (let index = 0; index < nNeurons; index++) {
             if (typeof Neurons[index] === "undefined") continue;
             const i = this.connections.indexOf(Neurons[index].id);

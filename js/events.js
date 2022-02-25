@@ -1,43 +1,46 @@
+   //BindEvent helper function:
+   function BindEvent(elem, event, callback) {
+       if (typeof elem !== "string" || typeof event !== "string") return callback;
+       document.querySelector(elem).addEventListener(event, callback);
+   }
+
    //für Mausspielereien:
-   document.addEventListener("mousemove", function(e) {
+   BindEvent("#canvas", "mousedown", function(e) {
+       if (e.button === 0) negativeMouse = true;
+       if (e.button === 1) gravitateMouse = true;
        cursorX = e.layerX;
        cursorY = e.layerY;
    });
 
-   canvas.addEventListener("mousedown", function(e) {
-       if (e.button === 0) gravitateMouse = true;
-       if (e.button === 1) negativeMouse = true;
+   BindEvent("#canvas", "mouseup", function(e) {
+       if (e.button === 0) negativeMouse = false;
+       if (e.button === 1) gravitateMouse = false;
    });
 
-   canvas.addEventListener("mouseup", function(e) {
-       if (e.button === 0) gravitateMouse = false;
-       if (e.button === 1) negativeMouse = false;
-   });
-
-   //touch:
-   document.addEventListener("touchmove", function(e) {
+   //Touch:
+   BindEvent("#canvas", "touchmove", function(e) {
        cursorX = e.touches[0].clientX;
        cursorY = e.touches[0].clientY;
    });
 
 
-   canvas.addEventListener("touchstart", function(e) {
+   BindEvent("#canvas", "touchstart", function(e) {
        gravitateMouse = true;
    });
-   canvas.addEventListener("touchend", function(e) {
+   BindEvent("#canvas", "touchend", function(e) {
        gravitateMouse = false;
    });
 
 
    //Button events:
-   document.getElementById("addButton").addEventListener("click", function(e) {
+   BindEvent("#addButton", "click", function(e) {
        for (let index = 0; index < 5; index++) {
            nNeurons++;
            Neurons[nNeurons] = new Neuron(nNeurons);
        }
    });
 
-   document.getElementById("remButton").addEventListener("click", function(e) {
+   BindEvent("#remButton", "click", function(e) {
        for (let index = 0; index < 5; index++) {
            if (typeof Neurons[nNeurons] === "undefined") return;
            Neurons[nNeurons] = null;
@@ -45,19 +48,19 @@
        }
    });
 
-   document.getElementById("gravitativeNeurons").addEventListener("click", function(e) {
-       gravitateNeurons = !gravitateNeurons;
-       if (gravitateNeurons) this.style = "color:cyan";
-       if (!gravitateNeurons) this.style = "color:white";
+   BindEvent("#antigravitativeNeurons", "click", function(e) {
+       antigravityNeurons = !antigravityNeurons;
+       if (antigravityNeurons) this.classList.add("button-active");
+       if (!antigravityNeurons) this.classList.remove("button-active");
    });
 
-   document.getElementById("collisionsButton").addEventListener("click", function(e) {
+   BindEvent("#collisionsButton", "click", function(e) {
        collisions = !collisions;
-       if (collisions) this.style = "color:cyan";
-       if (!collisions) this.style = "color:white";
+       if (collisions) this.classList.add("button-active");
+       if (!collisions) this.classList.remove("button-active");
    });
 
-   document.getElementById("pauseButton").addEventListener("click", function(e) {
+   BindEvent("#pauseButton", "click", function(e) {
        paused = !paused;
        if (paused) this.style = "color:cyan";
        if (!paused) {
@@ -66,6 +69,6 @@
        }
    })
 
-   document.getElementById("resetButton").addEventListener("click", function(e) {
+   BindEvent("#resetButton", "click", function() {
        initCanvas();
    });
