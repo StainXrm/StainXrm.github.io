@@ -12,7 +12,7 @@ class Neuron {
         this.vxmax = Math.random() * 2 - 1;
         this.vymax = Math.random() * 2 - 1;
     }
-    draw = function() {
+    draw = function () {
         this.gravityMouse();
         if (antigravityNeurons) this.antiGravity();
         this.collisionCheck();
@@ -94,6 +94,7 @@ class Neuron {
         if (this.size > this.gotosize && this.size > 1) this.size -= 0.02;
         ctx.beginPath();
         ctx.globalCompositeOperation = "source-over";
+        // ctx.filter = `saturate(${this.size}%)`
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
         ctx.fillStyle = "white";
         ctx.fill();
@@ -113,7 +114,7 @@ class Neuron {
                 let offset = this.size / 2;
                 ctx.beginPath();
                 ctx.globalCompositeOperation = "destination-over";
-                ctx.strokeStyle = "rgba(0,200,200, " + alpha + ")";
+                ctx.strokeStyle = `rgba(0,200,200, ${alpha})`;
                 ctx.moveTo(this.x - offset, this.y - offset);
                 ctx.lineTo(Neurons[index].x, Neurons[index].y);
                 ctx.stroke();

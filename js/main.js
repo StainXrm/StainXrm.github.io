@@ -1,5 +1,5 @@
 const MAXLINEDISTANCE = 150;
-const MOUSERANGE = 400;
+const MOUSERANGE = 300;
 const VELOCITYCHANGSPEED = 0.02;
 const MOUSEGRAVITY = 0.3;
 
@@ -46,6 +46,6 @@ const animate = (currentTime) => {
 }
 requestAnimationFrame(animate);
 
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     initCanvas();
 })
