@@ -1,6 +1,6 @@
 const MAXLINEDISTANCE = 150;
 const MOUSERANGE = 300;
-const VELOCITYCHANGSPEED = 0.02;
+const VELOCITYCHANGSPEED = 0.03;
 const MOUSEGRAVITY = 0.3;
 
 const canvas = document.getElementById("canvas");
