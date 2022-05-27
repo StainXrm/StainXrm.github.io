@@ -14,14 +14,12 @@ BindEvent("#canvas", "mousemove", function (e) {
 
 //Mouse button events:
 BindEvent("#canvas", "mousedown", function (e) {
-    if (e.button === 0) negativeMouse = true;
-    if (e.button === 1) gravitateMouse = true;
-    console.log(e)
-    console.log(`${cursorX}:${cursorY}`)
+    if (e.button === 0) gravitateMouse = true; //leftMouse
+    // if (e.button === 1) gravitateMouse = true; //rightMouse
 });
 BindEvent("#canvas", "mouseup", function (e) {
-    if (e.button === 0) negativeMouse = false;
-    if (e.button === 1) gravitateMouse = false;
+    if (e.button === 0) gravitateMouse = false;
+    // if (e.button === 1) gravitateMouse = false;
 });
 
 //Touch for Phones and Stuff:

@@ -54,7 +54,7 @@ class Neuron {
     gravityMouse = () => {//Mouse Stuff!
 
         //this is if mouseButton is pressed:
-        if (getDistance(cursorX, cursorY, this.x, this.y) < MOUSERANGE && (gravitateMouse || negativeMouse)) {
+        if (getDistance(cursorX, cursorY, this.x, this.y) < MOUSERANGE && gravitateMouse) {
             if (gravitateMouse) { //mouseButtonPressed = Gravity
                 this.vx -= ((this.x - cursorX) / 1000) * MOUSEGRAVITY;
                 this.vy -= ((this.y - cursorY) / 1000) * MOUSEGRAVITY;
@@ -65,7 +65,7 @@ class Neuron {
         }
 
         //!mouseButton is pressed
-        if (getDistance(cursorX, cursorY, this.x, this.y) < (MOUSERANGE / 4) && !(gravitateMouse || negativeMouse)) {
+        if (getDistance(cursorX, cursorY, this.x, this.y) < (MOUSERANGE / 4) && !gravitateMouse) {
             this.vx += ((this.x - cursorX) / 1000) * MOUSEGRAVITY * 5;
             this.vy += ((this.y - cursorY) / 1000) * MOUSEGRAVITY * 5;
         }
