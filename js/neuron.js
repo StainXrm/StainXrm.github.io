@@ -7,8 +7,8 @@ class Neuron {
         this.y = this.size + Math.random() * (canvas.height - this.size * 2);
         this.id = id;
         this.connections = [];
-        this.vx = Math.random() * 2 - 1;
-        this.vy = Math.random() * 2 - 1;
+        this.vx = Math.random() - 0.5;
+        this.vy = Math.random() - 0.5;
         this.vxmax = Math.random() * 2 - 1;
         this.vymax = Math.random() * 2 - 1;
     }
